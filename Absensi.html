@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Absensi Mahasiswa</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 40px; background-color: #f5f7fb; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #2c3e50; }
+        form { display: flex; gap: 12px; margin-bottom: 30px; background: #fdfdfd; padding: 20px; border: 1px solid #e0e0e0; border-radius: 6px; align-items: center; }
+        input, select { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .input-text { flex: 2; }
+        select { flex: 1.5; }
+        button { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 15px; }
+        .btn-submit { background-color: #2ecc71; color: white; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; font-size: 14px; }
+        th { background-color: #34495e; color: white; }
+        .btn-edit { background-color: #3498db; color: white; padding: 5px 10px; border-radius: 3px; border: none; cursor: pointer; }
+        .btn-delete { background-color: #e74c3c; color: white; padding: 5px 10px; border-radius: 3px; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Pencatatan Absensi Mahasiswa</h2>
+    <p style="display: flex; gap: 15px;">
+        <a href="index.html">Data Mahasiswa</a> | 
+        <a href="#">Data Absensi</a> | 
+        <a href="JadwalKelas.html">Data Jadwal Kelas</a>
+    </p>
+
+    <form id="absensi-form">
+        <input type="hidden" id="absensi-id">
+        
+        <input type="text" id="abs-nim" class="input-text" placeholder="NIM Mahasiswa" required>
+        <input type="text" id="abs-kodemk" class="input-text" placeholder="Kode MK (Contoh: JK001)" required>
+        
+        <select id="abs-status" required>
+            <option value="" disabled selected>Pilih Status</option>
+            <option value="Hadir">Hadir</option>
+            <option value="Sakit">Sakit</option>
+            <option value="Izin">Izin</option>
+            <option value="Alfa">Alfa</option>
+        </select>
+
+        <button type="submit" id="btn-action" class="btn-submit">Submit Absen</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>NIM</th>
+                <th>Kode MK</th>
+                <th>Status Kehadiran</th>
+                <th>Waktu Absen</th>
+                <th style="width: 150px;">Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="absensi-table-body">
+            </tbody>
+    </table>
+</div>
+
+<script type="module" src="absensi.js"></script>
+</body>
+</html>
