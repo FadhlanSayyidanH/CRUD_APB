@@ -33,6 +33,7 @@ const jadwalCollection = collection(db, "JadwalKelas");
 const jadwalForm = document.getElementById("jadwal-form");
 const jkIdInput = document.getElementById("jk-id");
 const jkNamaInput = document.getElementById("jk-nama");
+const jkProdiInput = document.getElementById("jk-prodi");
 const jkPaketInput = document.getElementById("jk-paket");
 const jkRuanganInput = document.getElementById("jk-ruangan");
 const jkWaktuMasukInput = document.getElementById("jk-waktu-masuk");     // <-- Update ID Masuk
@@ -75,7 +76,7 @@ onSnapshot(jadwalCollection, (snapshot) => {
         tr.innerHTML = `
             <td><strong>${id}</strong></td>
             <td>${data.Nama || '-'}</td>
-            <td>${data.PaketMK || '-'}</td>
+            <td>${data.KodeFakultasProdi || '-'}</td> <td>${data.PaketMK || '-'}</td>
             <td>${data.Ruangan || '-'}</td>
             <td>${masukDisplay}</td>
             <td>${selesaiDisplay}</td>
@@ -83,6 +84,7 @@ onSnapshot(jadwalCollection, (snapshot) => {
                 <button class="btn-edit" 
                     data-id="${id}" 
                     data-nama="${data.Nama || ''}" 
+                    data-prodi="${data.KodeFakultasProdi || ''}"
                     data-paket="${data.PaketMK || ''}" 
                     data-ruangan="${data.Ruangan || ''}" 
                     data-masuk="${masukISO}" 
@@ -104,9 +106,10 @@ jadwalForm.addEventListener("submit", async (e) => {
     const tsMasuk = Timestamp.fromDate(new Date(jkWaktuMasukInput.value));
     const tsSelesai = Timestamp.fromDate(new Date(jkWaktuSelesaiInput.value));
 
-    // Sesuaikan objek field persis dengan Firebase
+    // --- PERBAIKAN DI SINI: Tambahkan KodeFakultasProdi ---
     const jadwalData = {
         Nama: jkNamaInput.value,
+        KodeFakultasProdi: jkProdiInput.value, // <-- Menangkap data dari input prodi
         PaketMK: jkPaketInput.value,
         Ruangan: jkRuanganInput.value,
         JadwalMasuk: tsMasuk,
@@ -166,6 +169,9 @@ tableBody.addEventListener("click", async (e) => {
         jkIdInput.disabled = true; 
         
         jkNamaInput.value = e.target.getAttribute("data-nama");
+        // --- PERBAIKAN DI SINI: Masukkan data prodi ke input form ---
+        jkProdiInput.value = e.target.getAttribute("data-prodi"); 
+        
         jkPaketInput.value = e.target.getAttribute("data-paket");
         jkRuanganInput.value = e.target.getAttribute("data-ruangan");
         jkWaktuMasukInput.value = e.target.getAttribute("data-masuk");
