@@ -23,7 +23,6 @@
     </style>
 </head>
 <body>
-
 <div class="container">
     <h2>Manajemen Jadwal Kelas</h2>
     <p style="display: flex; gap: 15px;">
@@ -36,12 +35,14 @@
         <div class="form-group">
             <input type="text" id="jk-id" placeholder="Kode Jadwal (Contoh: JK001)" required>
             <input type="text" id="jk-nama" placeholder="Nama Mata Kuliah" required>
-            <input type="text" id="jk-prodi" placeholder="Kode Fakultas Prodi (Contoh: 303)" required>
+            <input type="text" id="jk-dosen" placeholder="Kode Dosen (Contoh: PPA)" required>
         </div>
         <div class="form-group">
+            <input type="text" id="jk-prodi" placeholder="Kode Fakultas Prodi (Contoh: 303)" required>
             <input type="text" id="jk-paket" placeholder="Paket MK (Contoh: SMT002)" required>
             <input type="text" id="jk-ruangan" placeholder="Ruangan (Contoh: KU1.02.02)" required>
-            
+        </div>
+        <div class="form-group">
             <div class="input-wrapper">
                 <label for="jk-waktu-masuk">Waktu Masuk</label>
                 <input type="datetime-local" id="jk-waktu-masuk" required>
@@ -53,12 +54,12 @@
         </div>
         <button type="submit" id="btn-action" class="btn-submit">Simpan Jadwal</button>
     </form>
-
     <table>
         <thead>
             <tr>
                 <th>Kode</th>
                 <th>Nama Mata Kuliah</th>
+                <th>Kode Dosen</th>
                 <th>Kode Prodi</th>
                 <th>Paket MK</th>
                 <th>Ruangan</th>
@@ -71,7 +72,6 @@
         </tbody>
     </table>
 </div>
-
 <script type="module" src="jadwal.js"></script>
 </body>
 </html>
