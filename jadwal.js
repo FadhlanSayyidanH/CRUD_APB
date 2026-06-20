@@ -33,6 +33,7 @@ const jadwalCollection = collection(db, "JadwalKelas");
 const jadwalForm = document.getElementById("jadwal-form");
 const jkIdInput = document.getElementById("jk-id");
 const jkNamaInput = document.getElementById("jk-nama");
+const jkDosenInput = document.getElementById("jk-dosen");                // <-- Tambah ID Kode Dosen
 const jkProdiInput = document.getElementById("jk-prodi");
 const jkPaketInput = document.getElementById("jk-paket");
 const jkRuanganInput = document.getElementById("jk-ruangan");
@@ -76,7 +77,9 @@ onSnapshot(jadwalCollection, (snapshot) => {
         tr.innerHTML = `
             <td><strong>${id}</strong></td>
             <td>${data.Nama || '-'}</td>
-            <td>${data.KodeFakultasProdi || '-'}</td> <td>${data.PaketMK || '-'}</td>
+            <td>${data.KodeDosen || '-'}</td>
+            <td>${data.KodeFakultasProdi || '-'}</td>
+            <td>${data.PaketMK || '-'}</td>
             <td>${data.Ruangan || '-'}</td>
             <td>${masukDisplay}</td>
             <td>${selesaiDisplay}</td>
@@ -84,6 +87,7 @@ onSnapshot(jadwalCollection, (snapshot) => {
                 <button class="btn-edit" 
                     data-id="${id}" 
                     data-nama="${data.Nama || ''}" 
+                    data-dosen="${data.KodeDosen || ''}"
                     data-prodi="${data.KodeFakultasProdi || ''}"
                     data-paket="${data.PaketMK || ''}" 
                     data-ruangan="${data.Ruangan || ''}" 
@@ -106,10 +110,10 @@ jadwalForm.addEventListener("submit", async (e) => {
     const tsMasuk = Timestamp.fromDate(new Date(jkWaktuMasukInput.value));
     const tsSelesai = Timestamp.fromDate(new Date(jkWaktuSelesaiInput.value));
 
-    // --- PERBAIKAN DI SINI: Tambahkan KodeFakultasProdi ---
     const jadwalData = {
         Nama: jkNamaInput.value,
-        KodeFakultasProdi: jkProdiInput.value, // <-- Menangkap data dari input prodi
+        KodeDosen: jkDosenInput.value,            // <-- Menangkap data dari input kode dosen
+        KodeFakultasProdi: jkProdiInput.value,
         PaketMK: jkPaketInput.value,
         Ruangan: jkRuanganInput.value,
         JadwalMasuk: tsMasuk,
@@ -169,7 +173,7 @@ tableBody.addEventListener("click", async (e) => {
         jkIdInput.disabled = true; 
         
         jkNamaInput.value = e.target.getAttribute("data-nama");
-        // --- PERBAIKAN DI SINI: Masukkan data prodi ke input form ---
+        jkDosenInput.value = e.target.getAttribute("data-dosen"); // <-- Masukkan data dosen ke input form
         jkProdiInput.value = e.target.getAttribute("data-prodi"); 
         
         jkPaketInput.value = e.target.getAttribute("data-paket");
