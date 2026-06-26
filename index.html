@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Data Mahasiswa</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background-color: #f5f7fb; }
+        .navbar {
+            background: #2c3e50;
+            color: white;
+            padding: 14px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar-brand { font-size: 18px; font-weight: 700; }
+        .navbar-right { display: flex; align-items: center; gap: 14px; font-size: 14px; }
+        .nav-links { display: flex; gap: 6px; align-items: center; }
+        .nav-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .nav-links a:hover { background: rgba(255,255,255,0.1); color: white; }
+        .nav-links a.active { background: #3498db; color: white; }
+        .nav-sep { color: #4a6278; }
+        .btn-logout {
+            padding: 7px 16px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .btn-logout:hover { background: #c0392b; }
+        .container { max-width: 1050px; margin: 30px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #2c3e50; }
+        form { display: flex; gap: 10px; margin-bottom: 30px; background: #fdfdfd; padding: 20px; border: 1px solid #e0e0e0; border-radius: 6px; align-items: center; flex-wrap: wrap; }
+        input { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; flex: 1; min-width: 150px; }
+        button { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 15px; }
+        .btn-submit { background-color: #2ecc71; color: white; min-width: 120px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; font-size: 14px; }
+        th { background-color: #34495e; color: white; }
+        .btn-edit { background-color: #3498db; color: white; padding: 5px 10px; border-radius: 3px; border: none; cursor: pointer; }
+        .btn-delete { background-color: #e74c3c; color: white; padding: 5px 10px; border-radius: 3px; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="navbar-brand">Sistem Absensi APB</div>
+    <div class="navbar-right">
+        <div class="nav-links">
+            <a href="index.html" class="active">Data Mahasiswa</a>
+            <span class="nav-sep">|</span>
+            <a href="Absensi.html">Data Absensi</a>
+            <span class="nav-sep">|</span>
+            <a href="JadwalKelas.html">Data Jadwal Kelas</a>
+            <span class="nav-sep">|</span>
+            <a href="DataDosen.html">Data Dosen</a>
+        </div>
+        <span id="nav-username" style="font-size:13px;color:#bdc3c7;"></span>
+        <button class="btn-logout" id="btn-logout">Logout</button>
+    </div>
+</nav>
+
+<div class="container">
+    <h2>Manajemen Data Mahasiswa (MHS)</h2>
+
+    <form id="mhs-form">
+        <input type="text" id="mhs-id" placeholder="NIM (Contoh: 103032300180)" required>
+        <input type="text" id="mhs-nama" placeholder="Nama Mahasiswa" required>
+        <input type="text" id="mhs-paket" placeholder="Paket MK (Contoh: SMT002)" required>
+        <input type="email" id="mhs-email" placeholder="Email Mahasiswa" required>
+        <input type="text" id="mhs-password" placeholder="Password Akun" required>
+        <button type="submit" id="btn-action" class="btn-submit">Simpan</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>NIM</th>
+                <th>Nama Mahasiswa</th>
+                <th>Paket MK</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="mhs-table-body">
+        </tbody>
+    </table>
+</div>
+
+<script type="module" src="crud.js"></script>
+</body>
+</html>

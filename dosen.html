@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Dosen</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background-color: #f5f7fb; }
+
+        .navbar {
+            background: #2c3e50;
+            color: white;
+            padding: 14px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar-brand { font-size: 18px; font-weight: 700; }
+        .navbar-user { display: flex; align-items: center; gap: 14px; font-size: 14px; }
+        .btn-logout {
+            padding: 7px 16px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .btn-logout:hover { background: #c0392b; }
+
+        .container { max-width: 1050px; margin: 30px auto; padding: 0 20px 40px; }
+
+        h3 {
+            color: #2c3e50;
+            margin-bottom: 18px;
+            font-size: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .jadwal-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .jadwal-info { flex: 1; min-width: 200px; }
+        .jadwal-info h4 { margin: 0 0 10px; color: #2c3e50; font-size: 17px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+        .kode-badge {
+            background: #3498db;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .jadwal-meta { display: flex; flex-wrap: wrap; gap: 10px; font-size: 13px; color: #555; }
+        .jadwal-meta span {
+            background: #f0f4f8;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+        .jadwal-actions { display: flex; gap: 10px; flex-shrink: 0; }
+        .btn-mhs {
+            padding: 9px 16px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .btn-mhs:hover { background: #219a52; }
+        .btn-qr {
+            padding: 9px 16px;
+            background: #8e44ad;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .btn-qr:hover { background: #7d3c98; }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #95a5a6;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .empty-state p { font-size: 15px; }
+
+        /* Modals */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-box {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 500px;
+            width: 92%;
+            max-height: 88vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .modal-title { font-size: 18px; font-weight: 700; color: #2c3e50; margin: 0 0 4px; }
+        .modal-subtitle { font-size: 13px; color: #7f8c8d; margin-bottom: 20px; }
+        .modal-close {
+            position: absolute;
+            top: 14px; right: 18px;
+            background: none; border: none;
+            font-size: 24px; cursor: pointer;
+            color: #7f8c8d; line-height: 1;
+        }
+        .modal-close:hover { color: #2c3e50; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: center; }
+        .btn-print {
+            padding: 9px 22px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .btn-print:hover { background: #2980b9; }
+        .btn-close-modal {
+            padding: 9px 22px;
+            background: #ecf0f1;
+            color: #2c3e50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .btn-close-modal:hover { background: #dfe6e9; }
+
+        /* QR */
+        #qr-canvas { display: flex; justify-content: center; margin: 16px 0 8px; }
+        .qr-label { text-align: center; font-size: 12px; color: #7f8c8d; margin-bottom: 4px; }
+        .qr-kode { text-align: center; font-size: 22px; font-weight: 700; color: #2c3e50; letter-spacing: 3px; margin-bottom: 4px; }
+
+        /* Mahasiswa table */
+        table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+        th { background: #34495e; color: white; padding: 10px 12px; text-align: left; font-size: 13px; }
+        td { padding: 10px 12px; border-bottom: 1px solid #eee; font-size: 13px; color: #444; }
+        tr:last-child td { border-bottom: none; }
+        .center-cell { text-align: center; padding: 20px; color: #7f8c8d; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="navbar-brand">Sistem Absensi APB</div>
+    <div class="navbar-user">
+        <span>Dosen: <strong id="nav-username"></strong></span>
+        <button class="btn-logout" id="btn-logout">Logout</button>
+    </div>
+</nav>
+
+<div class="container">
+    <h3>Jadwal Mengajar Saya</h3>
+    <div id="jadwal-list">
+        <p class="center-cell">Memuat jadwal...</p>
+    </div>
+</div>
+
+<!-- QR Modal -->
+<div class="modal-overlay" id="qr-modal">
+    <div class="modal-box">
+        <button class="modal-close" id="btn-close-qr">&times;</button>
+        <p class="modal-title">QR Code Absensi</p>
+        <p class="modal-subtitle" id="qr-modal-subtitle"></p>
+        <p class="qr-label">Kode Jadwal</p>
+        <p class="qr-kode" id="qr-kode-text"></p>
+        <div id="qr-canvas"></div>
+        <div class="modal-actions">
+            <button class="btn-print" id="btn-print-qr">Print QR</button>
+            <button class="btn-close-modal" id="btn-close-qr2">Tutup</button>
+        </div>
+    </div>
+</div>
+
+<!-- Mahasiswa Modal -->
+<div class="modal-overlay" id="mhs-modal">
+    <div class="modal-box">
+        <button class="modal-close" id="btn-close-mhs">&times;</button>
+        <p class="modal-title">Daftar Mahasiswa</p>
+        <p class="modal-subtitle" id="mhs-modal-subtitle"></p>
+        <table>
+            <thead>
+                <tr><th>NIM</th><th>Nama</th><th>Email</th></tr>
+            </thead>
+            <tbody id="mhs-table-body">
+                <tr><td colspan="3" class="center-cell">Memuat data...</td></tr>
+            </tbody>
+        </table>
+        <div class="modal-actions">
+            <button class="btn-close-modal" id="btn-close-mhs2">Tutup</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script type="module" src="dosen.js"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Jadwal Kelas</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background-color: #f5f7fb; }
+        .navbar {
+            background: #2c3e50;
+            color: white;
+            padding: 14px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar-brand { font-size: 18px; font-weight: 700; }
+        .navbar-right { display: flex; align-items: center; gap: 14px; font-size: 14px; }
+        .nav-links { display: flex; gap: 6px; align-items: center; }
+        .nav-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .nav-links a:hover { background: rgba(255,255,255,0.1); color: white; }
+        .nav-links a.active { background: #3498db; color: white; }
+        .nav-sep { color: #4a6278; }
+        .btn-logout {
+            padding: 7px 16px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .btn-logout:hover { background: #c0392b; }
+        .container { max-width: 950px; margin: 30px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #2c3e50; }
+        form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; background: #fdfdfd; padding: 20px; border: 1px solid #e0e0e0; border-radius: 6px; }
+        .form-group { display: flex; gap: 10px; }
+        .form-group label { font-size: 13px; color: #7f8c8d; display: block; margin-bottom: 4px; }
+        .input-wrapper { flex: 1; }
+        input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box; }
+        button { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 15px; }
+        .btn-submit { background-color: #2ecc71; color: white; align-self: flex-end; width: 150px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; font-size: 14px; }
+        th { background-color: #34495e; color: white; }
+        .btn-edit { background-color: #3498db; color: white; padding: 5px 10px; border-radius: 3px; border: none; cursor: pointer; }
+        .btn-delete { background-color: #e74c3c; color: white; padding: 5px 10px; border-radius: 3px; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="navbar-brand">Sistem Absensi APB</div>
+    <div class="navbar-right">
+        <div class="nav-links">
+            <a href="index.html">Data Mahasiswa</a>
+            <span class="nav-sep">|</span>
+            <a href="Absensi.html">Data Absensi</a>
+            <span class="nav-sep">|</span>
+            <a href="JadwalKelas.html" class="active">Data Jadwal Kelas</a>
+            <span class="nav-sep">|</span>
+            <a href="DataDosen.html">Data Dosen</a>
+        </div>
+        <span id="nav-username" style="font-size:13px;color:#bdc3c7;"></span>
+        <button class="btn-logout" id="btn-logout">Logout</button>
+    </div>
+</nav>
+
+<div class="container">
+    <h2>Manajemen Jadwal Kelas</h2>
+
+    <form id="jadwal-form">
+        <div class="form-group">
+            <input type="text" id="jk-id" placeholder="Kode Jadwal (Contoh: JK001)" required>
+            <input type="text" id="jk-nama" placeholder="Nama Mata Kuliah" required>
+            <input type="text" id="jk-dosen" placeholder="Kode Dosen (Contoh: PPA)" required>
+        </div>
+        <div class="form-group">
+            <input type="text" id="jk-prodi" placeholder="Kode Fakultas Prodi (Contoh: 303)" required>
+            <input type="text" id="jk-paket" placeholder="Paket MK (Contoh: SMT002)" required>
+            <input type="text" id="jk-ruangan" placeholder="Ruangan (Contoh: KU1.02.02)" required>
+        </div>
+        <div class="form-group">
+            <div class="input-wrapper">
+                <label for="jk-waktu-masuk">Waktu Masuk</label>
+                <input type="datetime-local" id="jk-waktu-masuk" required>
+            </div>
+            <div class="input-wrapper">
+                <label for="jk-waktu-selesai">Waktu Selesai</label>
+                <input type="datetime-local" id="jk-waktu-selesai" required>
+            </div>
+        </div>
+        <button type="submit" id="btn-action" class="btn-submit">Simpan Jadwal</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Kode</th>
+                <th>Nama Mata Kuliah</th>
+                <th>Kode Dosen</th>
+                <th>Kode Prodi</th>
+                <th>Paket MK</th>
+                <th>Ruangan</th>
+                <th>Jadwal Masuk</th>
+                <th>Jadwal Selesai</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="jadwal-table-body">
+        </tbody>
+    </table>
+</div>
+
+<script type="module" src="jadwal.js?v=2"></script>
+</body>
+</html>
